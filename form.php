@@ -14,11 +14,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         //Stockage du message dans la session
         $_SESSION['message'] = "Merci $name !";
 
+
         header("Location: form.php");
         exit();
     }else {
         $_SESSION['message'] = "Veuillez indiquer votre nom !";
     }
+    $mail = isset($_POST['mail']) ? trim($_POST['mail']) : '';
+
+    // Vérification que le champ n'est pas vide
+    if ($mail !== ''){
+
+
+        header("Location: form.php");
+        exit();
+    }else {
+        $_SESSION['message'] = "Veuillez indiquer votre adresse e-mail !";
+    }
+    $message = isset($_POST['message']) ? trim($_POST['message']) : '';
+
+    // Vérification que le champ n'est pas vide
+    if ($message !== ''){
+
+
+        header("Location: form.php");
+        exit();
+    }else {
+        $_SESSION['message'] = "Veuillez remplir ce champ !";
+    }
+
 }
 ?>
 <!doctype html>
@@ -44,9 +68,9 @@ if (isset($_SESSION['message'])){
     <label for="name">Nom :<br></label>
     <input type="text" id="name" name="name" required>
     <label for ="mail"><br> E-mail<br></label>
-    <input type="email" id="mail" required>
+    <input type="email" id="mail" name="mail" required>
     <label for="message"><br>Votre message<br></label>
-    <input type="text" id="message"><br>
+    <input type="text" id="message" name="message"><br>
     <button type="submit">Envoyer</button>
 </form>
 
