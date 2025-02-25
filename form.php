@@ -3,44 +3,24 @@
 session_start();
 //Vérification de la soumission du formulaire
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+
     //Récupération des données du formulaire
     //$name = $_POST['name'];
     //var_dump($name);
     //$name = isset($_POST['name']);
     $name = isset($_POST['name']) ? trim($_POST['name']) : '';
-
+    $mail = isset($_POST['mail']) ? trim($_POST['mail']) : '';
+    $message = isset($_POST['message']) ? trim($_POST['message']) : '';
     // Vérification que le champ n'est pas vide
-    if ($name !== ''){
+    if ($name && $mail && $message !== ''){
         //Stockage du message dans la session
         $_SESSION['message'] = "Merci $name !";
-
-
-        header("Location: form.php");
+        echo file_put_contents("messages.txt", "$name, $mail, $message \n", FILE_APPEND);
+        header("Location: messages.php");
         exit();
+
     }else {
-        $_SESSION['message'] = "Veuillez indiquer votre nom !";
-    }
-    $mail = isset($_POST['mail']) ? trim($_POST['mail']) : '';
-
-    // Vérification que le champ n'est pas vide
-    if ($mail !== ''){
-
-
-        header("Location: form.php");
-        exit();
-    }else {
-        $_SESSION['message'] = "Veuillez indiquer votre adresse e-mail !";
-    }
-    $message = isset($_POST['message']) ? trim($_POST['message']) : '';
-
-    // Vérification que le champ n'est pas vide
-    if ($message !== ''){
-
-
-        header("Location: form.php");
-        exit();
-    }else {
-        $_SESSION['message'] = "Veuillez remplir ce champ !";
+        $_SESSION['message'] = "Veuillez compléter les champs !";
     }
 
 }
@@ -52,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
 <body>
@@ -64,7 +45,8 @@ if (isset($_SESSION['message'])){
 }
 ?>
 
-<form action="form.php" method="post">
+<form action="form.php" method="post" id="form">
+    <h1>Formulaire de contact</h1>
     <label for="name">Nom :<br></label>
     <input type="text" id="name" name="name" required>
     <label for ="mail"><br> E-mail<br></label>
