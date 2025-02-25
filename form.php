@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     if ($name && $mail && $message !== ''){
         //Stockage du message dans la session
         $_SESSION['message'] = "Merci $name !";
-        echo file_put_contents("messages.txt", "$name, $mail, $message \n", FILE_APPEND);
+        echo file_put_contents("messages.txt", "Nom : $name, Adresse mail: $mail, Message :$message \n", FILE_APPEND);
         header("Location: messages.php");
         exit();
 
